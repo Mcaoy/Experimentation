@@ -1,3 +1,0 @@
-字段名	类型	可空	描述
-name	string	not	djdjdj	
-f	df	as	as

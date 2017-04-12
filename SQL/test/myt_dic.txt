@@ -1,3 +1,0 @@
-字段名	类型	可空
-name	string	not	ddd
-age	int	not	daa
