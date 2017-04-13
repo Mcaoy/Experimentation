@@ -73,10 +73,17 @@ while i<5:
     #delete
     elif cmd[0] == 'delete':
         if cmd[1] == 'from':
-            tl.delete(cmd[2],cmd[3:])
+            tl.delete(cmd[2:])
         else:
             print('error:can not distinggush % s' % cmd[2])
+            
+    #updata
     elif cmd[0] == 'update':
         tl.update(cmd[1:])
+    
+    #select
+    elif cmd[0] == "select":
+        tl.select(cmd[1:])
+        
     else:
         print('错误命令')
