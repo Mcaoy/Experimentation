@@ -8,25 +8,28 @@ Created on Thu Apr  6 10:34:45 2017
 #import os
 import DatabaseOpt as dbs
 import TableOpt as tabe
+import IndexOpt as idx
 
-print("Welcome to my SQL!")
+print("\nWelcome to my SQL!")
 command = ''
 
-#while command != 'quit':
-i=0
-while i<5:
-    i += 1
+while (1):
     command = input("SQL>>")    #写命令
+    
+    if command == "quit":
+        break
+                   
     cmd = command.split(' ',command.count(' '))
     db = dbs.DatabaseOpt()
     tl = tabe.TableOpt()
+    ix = idx.IndexOpt()
 
     #判断是空语句
     if len(command) == 0:
         continue
     
     #判断是否以';'结尾
-    if len(command)>0 and not cmd[len(cmd)-1].endswith(';'):
+    if len(cmd)>0 and not cmd[len(cmd)-1].endswith(';'):
         print("error : loss ';'")
         continue
     cmd[len(cmd)-1] = cmd[len(cmd)-1][:-1]
@@ -36,21 +39,24 @@ while i<5:
         if cmd[1] == 'database':
             db.createdb(cmd[2])
         elif cmd[1] == 'table':
-            if cmd[2].startswith("'") and cmd[2].endswith("'"):     #或者只含英文和数字
-                tl.createtb(cmd[2][1:-1],cmd[3:])
-            else:
-                print("loss '\'' or '\'' ")
+            tl.createtb(cmd[2:])
+        elif cmd[1] == "index":
+            ix.cindex(cmd[2:])
+        elif cmd[1] == 'user':
+            ix.cuser(cmd[2:])
         else:
-            print('error:command1')
+            print('error:can not create %s' % cmd[1])
             
     #drop
     elif cmd[0] == 'drop':
         if cmd[1] == 'database':
             db.dropdb(cmd[2])
         elif cmd[1] == 'table':
-            tl.droptb(cmd[2])
+            tl.droptb(cmd[2:])
+        elif cmd[1] == 'index':
+            ix.dindex(cmd[2:])
         else:
-            print('error:command2')
+            print('error:can not drop %s' % cmd[1])
     
     #例如use student
     elif cmd[0] == 'use':
@@ -61,7 +67,7 @@ while i<5:
         if cmd[1] == 'table':
             tl.alter(cmd[2:])
         else:
-            print('error:command3')
+            print('error:only can alter table')
             
     #insert
     elif cmd[0] == 'insert':
@@ -84,6 +90,13 @@ while i<5:
     #select
     elif cmd[0] == "select":
         tl.select(cmd[1:])
+       
+    #grant
+    elif cmd[0] == "grant":
+        ix.grant(cmd[1:])
+        
+    elif cmd[0] == "revoke":
+        ix.revoke(cmd[1:])
         
     else:
         print('错误命令')

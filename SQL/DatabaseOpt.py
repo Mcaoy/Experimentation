@@ -26,5 +26,3 @@ class DatabaseOpt(object):
             print("into success!")
         else:
             print('%s not exists' % dbname)
-            
-#bug:use haha;\  into success
